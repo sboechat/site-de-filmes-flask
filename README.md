@@ -13,4 +13,4 @@ Um site com informações de filmes e link de download torrent. Implementado em 
 
 #### Aconteceu algum bug (talvez ao upar pro drive) que os arquivos estáticos css, js e imagens sumiram, então site bonitinho é só no vídeo mesmo, se rodar aí vai ser só um html grotesco.
 
-#### ~Esse sistema tem 2 anos, hoje já estou programando melhor viu :)~
+#### Hoje eu programo mais orientado a objetos e não misturo snake case com camel case xD ~fiz isso há 2 anos né~
