@@ -1,0 +1,74 @@
+{% extends 'default.html' %}
+{% block conteudo %}
+
+
+<div class="div-conjunto-posts">
+    <h2>Baixe todas as suas séries e filmes favoritos em um só lugar!</h2>
+    {%for i in range(0, len)%}
+        <span class="span-midia-post">
+            <ul class="lista-filmes">
+                <lo>
+                    <figure class="figure-poster-post">
+                        {% set titulo = dados[i]['title'] %}
+                        <form action="/filme/" method="GET">
+                            <input type="hidden" name="filme" value="{{titulo}}">
+                            <input type="image" class="img-poster-post" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/{{dados[i]['poster_path']}}" value="Poster {{titulo}}" alt="Poster {{titulo}}">
+                            <figcaption><h2 class="nome-post">{{titulo}}</h2></figcaption>
+                        </form>
+                    </figure>
+                    <span class="tag-capa rating"><img src="{{ url_for('static', filename='img/imdb.png') }}" alt="Nota IMDB"> <p>{{dados[i]['vote_average']}}</p></span>
+                    {% if "filme" == dados[i]['tipo'] %}
+                        <span class="tag-capa lancamento"><p>{{dados[i]['ano_lancamento']}}</p></span>
+                    {% else %}
+                        <span class="tag-capa lancamento"><p>{{dados[i]['temporada']}}&#170 Temp.</p></span>
+                    {% endif %}
+                </lo>
+            </ul>
+        </span>
+    {%endfor%}
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {%if page == 1%}
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1">Previous</a></li>
+        {%else%}
+            <li class="page-item"><a class="page-link" href="/filmes-page/{{page-1}}" tabindex="-1">Previous</a></li>
+        {%endif%}
+      
+        {%if page > 5%}
+            {% set ini = page-4%}
+            {% set fim = page+4%}
+        {%else%}
+            {% set ini = 1%}
+            {% set fim = 10%}
+        {%endif%}
+        {%if fim > total_paginas%}
+            {% set fim = total_paginas%}
+            {% set ini = page - (8 - (total_paginas-page))%}
+        {%endif%}
+        {%for i in range(ini, fim+1)%}
+        
+            {%if i == page%}
+                <li class="page-item active"><a class="page-link" href="/filmes-page/{{i}}">{{i}}</a></li>
+            {%else%}
+                <li class="page-item"><a class="page-link" href="/filmes-page/{{i}}">{{i}}</a></li>
+            {%endif%}
+        {%endfor%}
+
+        {%if total_paginas > page%}
+            <li class="page-item"><a class="page-link" href="/filmes-page/{{page+1}}">Next</a>
+        {%else%}
+            <li class="page-item disabled"><a class="page-link" href="/filmes-page/{{page}}">Next</a>
+        {%endif%}
+        
+        </li>
+    </ul>
+  </nav>
+
+{% endblock %}
+{% block body %}
+    <script type="text/javascript">
+        window.onload= resetNavFocus ('filmes');
+    </script>
+{% endblock %}

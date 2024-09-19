@@ -1,0 +1,40 @@
+{% extends 'default.html' %}
+{% block conteudo %}
+
+<h2>Resultados da busca:</h2>
+
+<div class="div-conjunto-posts">
+    {%for i in range(0, len)%}
+        <span class="span-midia-post">
+            <ul>
+                <lo>
+                    <figure class="figure-poster-post">
+                        {% if ('name' in dados[i]): %}
+                            {% set titulo = dados[i]['name'] %}
+                        {% else: %}
+                            {% set titulo = dados[i]['title'] %}
+                        {% endif %}
+                        <form action="/filme/{{i}}-{{titulo}}" method="POST">
+                            <input type="image" class="img-poster-post" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/{{dados[i]['poster_path']}}" value="Poster {{titulo}}" alt="Poster {{titulo}}">
+                            <figcaption><h2 class="nome-post">{{titulo}}</h2></figcaption>
+                            <input type="hidden" name="filme" value="{{i}}">
+                        </form>
+                    </figure>
+                    <span class="tag-capa rating"><img src="{{ url_for('static', filename='img/imdb.png') }}" alt="Nota IMDB"> <p>{{dados[i]['vote_average']}}/10</p></span>
+                    {% if "filme" == dados[i]['tipo'] %}
+                        <span class="tag-capa lancamento"><p>{{dados[i]['ano_lancamento']}}</p></span>
+                    {% else %}
+                        <span class="tag-capa lancamento"><p>{{dados[i]['temporada']}}&#170 Temp.</p></span>
+                    {% endif %}
+                </lo>
+            </ul>
+        </span>
+    {%endfor%}
+    </div>
+
+{% endblock %}
+{% block body %}
+    <script type="text/javascript">
+        window.onload= resetNavFocus ();
+    </script>
+{% endblock %}

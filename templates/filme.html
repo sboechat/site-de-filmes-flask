@@ -1,0 +1,75 @@
+{% extends 'default.html' %}
+
+{% block antesconteudo %}
+
+<style>
+  .background-infos-filme{
+      background-image: url("https://www.themoviedb.org/t/p/w1920_and_h800_multi_faces/{{dados['backdrop_path']}}");
+      background-size: cover;
+      background-clip: border-box;
+      background-repeat: no-repeat;
+      margin: 0;
+  }
+</style>
+<div class="div-verde-filme">
+  <div class="background-infos-filme">
+      <div class="infos-filme">
+        <figure class="figure-img-filme">
+          <img class="img-filme-page" src="https://www.themoviedb.org/t/p/w600_and_h900_bestv2/{{dados['poster_path']}}" alt="{{dados['title']}}">
+        </figure>
+          {% if "filme" == dados['tipo'] %}
+            <h2 class="titulo-filme-page" alt="{{dados['title']}} {{dados['ano_lancamento']}}">{{dados['title']}} ({{dados['ano_lancamento']}})</h2>
+          {% else %}
+            <h2 class="titulo-filme-page" alt="{{dados['title']}} {{dados['temporada']}} Temporada">{{dados['title']}} ({{dados['temporada']}}&#170 Temporada)</h2>
+          {% endif %}
+          <h3 class="h3-filme-page">Sinopse: </h3>
+          <h4 class="overview-filme-page" alt="Sinopse {{dados['title']}}">{{dados['overview']}}</h2>
+          <a id="ancora-download" href="#lista-de-downloads"><button type="button" id="main-btn-download" class="btn-dark btn-lg"><img class="icon-torrent-download" id="icon-torrent-download" src="{{ url_for('static', filename='img/logo.png') }}" alt="Baixar {{dados['title']}} pelo torrent">BAIXAR TORRENT</button></a><!---->
+          {% if len > 0 %}
+            <h3 class="h3-filme-page">Ou assista em:</h3>
+          {%endif%}
+          {%for provider in dados['onde_assistir']%}
+            <a class="link-onde-assistir" href="{{provider['link']}}" target="_blank"><img class="icon-onde-assistir" src="https://www.themoviedb.org/t/p/original/{{provider['logo_path']}}" alt="{{provider['provider_name']}}"></a>
+          {%endfor%}
+            
+      </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+
+<section class="section-main">
+    <div class="div-downloads">
+      <lu id="lista-de-downloads">
+        {% for download in dados['downloads'] %}
+          <lo id="lo-download">
+            <div class="div-download">
+                <a href="{{download['link']}}">{{download['desc']}}</a>
+            </div>
+          </lo>
+        {%endfor%}
+      </lu>
+    </div>
+</section>
+{% endblock %}
+
+{% block body %}
+<!--<div class="yt-div">
+  <iframe id="ytplayer" type="text/html" width="640" height="360"
+  src="http://www.youtube.com/embed/M7lc1UVf-VE">
+</div>-->
+
+    <script type="text/javascript">
+        window.onload= resetNavFocus ();
+        $( "#main-btn-download" ).hover(
+          function() {
+            $("#icon-torrent-download").attr("src","{{ url_for('static', filename='img/logo.png') }}");
+            $( this ).addClass( "bg-dark" );    
+          }, function() {
+            $("#icon-torrent-download").attr("src", "{{ url_for('static', filename='img/dark-logo.png') }}");
+            $( this ).removeClass( "bg-dark" );
+          }
+        );
+    </script>
+{% endblock %}
